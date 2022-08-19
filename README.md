@@ -11,12 +11,12 @@ This script was made for educational purposes, therefor all consequences caused 
 - Autofill
 
 ## ⚙️ 〢 Setup
-```
+```batch
 pip install -r requirements.txt
 ```
 
 ## 🤖 〢 Usage
-```bash
+```batch
 python chrome.py
 ```
 The script will store all the information in text files.
