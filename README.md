@@ -16,7 +16,7 @@ pip install -r requirements.txt
 ```
 
 ## 🤖 〢 Usage
-```
+```bash
 python chrome.py
 ```
 The script will store all the information in text files.
