@@ -139,7 +139,7 @@ class Chrome:
 
                 cursor.execute('SELECT title, url, last_visit_time FROM urls')
 
-                with open("search_history.txt", "w") as f:
+                with open("web_history.txt", "w") as f:
                     for item in cursor.fetchall():
                         title = item[0]
                         url = item[1]
