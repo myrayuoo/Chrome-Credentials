@@ -4,8 +4,8 @@ Chrome Credentials
 This script was made for educational purposes, therefor all consequences caused by your actions are your responsibility and accountability.
 
 ## 🔰 〢 Features
-- Get saved passwords
-- Get saved user cookies
+- Get stored passwords
+- Get stored user cookies
 
 ## ⚙️ 〢 Setup
 ```
