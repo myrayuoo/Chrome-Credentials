@@ -4,8 +4,11 @@
 This script was made for educational purposes, therefor all consequences caused by your actions are your responsibility and accountability.
 
 ## 🔰 〢 Features
-- Get stored passwords
-- Get stored user cookies
+- Passwords
+- Cookies
+- Search Terms
+- Web History
+- Autofill
 
 ## ⚙️ 〢 Setup
 ```
