@@ -13,4 +13,4 @@ pip install -r requirements.txt
 ```
 
 ## License
-This project is distributed under [GNU General Public License v3.0](https://github.com/zeyad-mansour/Lunar/blob/main/LICENSE) license.
+This project is distributed under [GNU General Public License v3.0](https://github.com/netgian/Chrome-Credentials/blob/main/LICENSE) license.
