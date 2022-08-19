@@ -7,7 +7,7 @@ This script was made for educational purposes, therefor all consequences caused 
 · Get saved passwords
 · Get saved user cookies
 
-## Setup
+## ⚙️ 〢 Setup
 ```
 pip install -r requirements.txt
 ```
