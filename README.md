@@ -1,6 +1,6 @@
 Chrome Credentials
 ==================
-**Note:**
+**Note:** \
 This script was made for educational purposes, therefor all consequences caused by your actions are your responsibility and accountability.
 
 ## Setup
