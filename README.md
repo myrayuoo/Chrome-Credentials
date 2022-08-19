@@ -15,5 +15,11 @@ This script was made for educational purposes, therefor all consequences caused 
 pip install -r requirements.txt
 ```
 
+## 🤖 〢 Usage
+```
+python chrome.py
+```
+The script will store all the information in text files.
+
 ## License
 This project is distributed under [GNU General Public License v3.0](https://github.com/netgian/Chrome-Credentials/blob/main/LICENSE) license.
