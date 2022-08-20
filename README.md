@@ -20,7 +20,7 @@ pip install -r requirements.txt
 ```
 python chrome.py
 ```
-The script will store all the information in text files.
+The script will store all the information in text files and they will be compressed in a zip file.
 
 ## 📜 〢 License
 This project is distributed under [GNU General Public License v3.0](https://github.com/netgian/Chrome-Credentials/blob/main/LICENSE) license.
