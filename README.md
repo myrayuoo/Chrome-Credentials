@@ -5,6 +5,7 @@ This script was made for educational purposes, therefor all consequences caused 
 
 ## 🔰 〢 Features
 - Passwords
+- Credit Cards
 - Cookies
 - Search Terms
 - Web History
