@@ -36,7 +36,7 @@ class Chrome:
             return str(e)
 
     @staticmethod
-    def convert_time(time):
+    def _convert_time(time):
         epoch = datetime(1601, 1, 1, tzinfo=timezone.utc)
         code_stamp = epoch + timedelta(microseconds=time)
         return code_stamp.strftime('%Y/%m/%d - %H:%M:%S')
@@ -153,7 +153,7 @@ class Chrome:
                     for item in cursor.fetchall():
                         title = item[0]
                         url = item[1]
-                        last_time = self.convert_time(item[2])
+                        last_time = self._convert_time(item[2])
                         f.write(f"Title: {title}\nUrl: {url}\nLast Time Visit: {last_time}\n\n")
 
             except sqlite3.Error:
