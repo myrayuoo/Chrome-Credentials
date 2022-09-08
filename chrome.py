@@ -83,7 +83,7 @@ class Chrome:
                         host = item[0]
                         user = item[1]
                         decrypted_cookie = self._decrypt(item[2], self._master_key)
-                        f.write(f"HOST KEY: {host}{' ' * (30 - len(host))} NAME: {user}{' ' * (30 - len(user))} VALUE: {decrypted_cookie}\n")
+                        f.write(f"HOST KEY: {host:<30} NAME: {user:<30} VALUE: {decrypted_cookie}\n")
 
             except sqlite3.Error:
                 pass
